@@ -1,23 +1,25 @@
 require 'timeout'
 
 module Lazy
-  def self.func(lazy = false)
-    if lazy
-      f = lambda{ (1..Float::INFINITY).lazy.select{ |i| i % 3 == 0 }.first(5) }
-    else
-      f = lambda{ (1..Float::INFINITY).select{ |i| i % 3 == 0 }.first(5) }
+  def self.lazy_func
+    timeout(1) do
+      (1..Float::INFINITY).lazy.select{ |i| i % 3 == 0 }.first(5)
     end
-    timeout(1){ f.call }
+  end
+
+  def self.not_lazy_func
+    timeout(1) do
+      (1..Float::INFINITY).select{ |i| i % 3 == 0 }.first(5)
+    end
   end
 end
 
 describe Lazy do
   context "lazy" do
-    lazy = true
-    it { Lazy::func(lazy).should == [3, 6, 9, 12, 15] }
+    it { Lazy::lazy_func.should == [3, 6, 9, 12, 15] }
   end
 
   context "timeout" do
-    it { lambda{ Lazy::func }.should raise_error(TimeoutError)  }
+    it { lambda{ Lazy::not_lazy_func }.should raise_error(TimeoutError)  }
   end
 end
