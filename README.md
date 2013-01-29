@@ -24,7 +24,7 @@ Some new features in Ruby2.0 that you can learn from our source codes are :-
 Credits
 ----------------
  - Goto
- - Sato
+ - [Sato](https://github.com/satoryu)
  - Yanagimoto
  - Matsue
  - Nampu
