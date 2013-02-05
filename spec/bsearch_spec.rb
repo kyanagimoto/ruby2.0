@@ -11,3 +11,11 @@ describe "bsearch greater equal" do
   it { subject.bsearch{ |i| i >= -1 }.should == 0 }
   it { subject.bsearch{ |i| i >= 20 }.should be_nil }
 end
+
+describe "bsearch any" do
+  subject { [0, 3, 5, 10, 12] }
+  it("# try to find v such that 4 <= v < 8") {
+    r = subject.bsearch{ |i| 1 - i / 4 }
+    (r == 3 || r == 5).should be_true
+  }
+end
